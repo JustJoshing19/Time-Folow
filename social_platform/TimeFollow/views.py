@@ -30,10 +30,10 @@ def register(request):
             msg.send()
 
             messages.success(request, f'Your account has been created! You are now able to log in')
-            return redirect(login)
+            return redirect('login')
     else:
         form = UserRegistrationForm()
-    return render(request, 'user/register.html', {'form': form, 'titel':'register here'})
+    return render(request, 'TimeFollow/register.html', {'form': form, 'title':'register here'})
 
 def Login(request):
     if request.method == 'POST':
@@ -47,4 +47,4 @@ def Login(request):
         else:
             messages.info(request, f'Account does not exist. Please sign in.')
     form = AuthenticationForm()
-    return render(request, 'user/login.html', {'form':form, 'title':'Log in'})
+    return render(request, 'TimeFollow/login.html', {'form':form, 'title':'Log in'})
