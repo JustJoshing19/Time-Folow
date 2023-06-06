@@ -26,7 +26,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
     <!-- main css-->
-    <link rel="stylesheet" href="{% static 'index.css' %}">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/TimeFollow.css' %}">
 
     {% if messages %}
     {% for message in messages %}
@@ -59,6 +60,7 @@
                         <li><a href="{% url 'home' %}">Home</a></li>
                         {% if user.is_authenticated %}
                         <li><a href="{% url 'logout' %}"><span class="glyphicon glyphicon-log-out"></span> &nbsp; Logout</a></li>
+                        <li><a href="{% url 'timeline' %}"><span class="glyphicon glyphicon-time"></span> &nbsp; timeline</a></li>
                         <li><a href="{% url 'createpost' %}"><span class="glyphicon glyphicon-pushpin"></span> &nbsp; CreatePost</a></li>
                         {% else %}
                         <li><a href="{% url 'register' %}"><span class="glyphicon glyphicon-user"></span> &nbsp; Sign up</a></li>

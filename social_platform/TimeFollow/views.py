@@ -7,11 +7,13 @@ from .forms import UserRegistrationForm
 from django.core.mail import send_mail, EmailMultiAlternatives
 from django.template.loader import get_template
 from django.template import Context
+from TimeFollow.models import Post
 
+########### Home page ###########
 def index(request):
     return render(request, 'TimeFollow/Home.html', {'title':'Home'})
 
-
+########### Login and Register ###########
 def register(request):
     if request.method == "POST":
         form = UserRegistrationForm(request.POST)
@@ -44,14 +46,31 @@ def Login(request):
         if user is not None:
             form = login(request, user)
             messages.success(request, f'welcome {username} !!')
+            
             return redirect('home')
         else:
             messages.info(request, f'Account does not exist. Please sign in.')
     form = AuthenticationForm()
     return render(request, 'TimeFollow/login.html', {'form':form, 'title':'Log in'})
 
+########### Creating and Viewing ###########
 def CreatePost(request):
     if request.method == 'POST':
-        pass
+        if request.POST['content'] != '':
+            content = request.POST['content']
+            poster = request.user
+            newPost = Post(user=poster, postContent=content)
+            newPost.save()
+            messages.success(request, f'Successfully posted!')
+            return redirect('timeline')
+        
+        elif request.POST['content'] == '':
+            messages.warning(request, f'Please enter a message before posting.')
 
     return render(request, 'TimeFollow/createPost.html', {'title':'Create Post'})
+
+def ViewTimeline(request):
+    if request.method == 'POST':
+        pass
+    
+    return render(request, 'TimeFollow/timeline.html', {'title':'Timeline'})

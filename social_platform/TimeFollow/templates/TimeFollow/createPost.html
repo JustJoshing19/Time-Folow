@@ -2,6 +2,18 @@
 {% load crispy_forms_tags %}
 {% block start %}
 
-
+<div class="container-fluid" >
+    <div>
+        <label for="newPostform"><H1>New Post by {{ user.username }}</H1></label>
+    </div>
+    <form method="POST" id="newPostform">
+        {% csrf_token %}
+        <div class="mb-2">
+            <textarea style="resize: none; max-width: 1000px; border-radius: 10px;" id="postContent" rows="10" class="form-control" name="content"></textarea>
+            <div id="maxLength" class="form-text">Post may not be more than 200 characters</div>
+        </div>
+        <button type="submit" class="btn btn-primary">Post</button>
+    </form>
+</div>
 
 {% endblock start %}
