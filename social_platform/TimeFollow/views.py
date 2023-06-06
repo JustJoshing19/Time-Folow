@@ -9,7 +9,7 @@ from django.template.loader import get_template
 from django.template import Context
 
 def index(request):
-    return render(request, 'TimeFollow/index.html', {'title':'index'})
+    return render(request, 'TimeFollow/Home.html', {'title':'Home'})
 
 
 def register(request):
@@ -28,6 +28,7 @@ def register(request):
             msg = EmailMultiAlternatives(subject, html_conent, from_email, [to])
             msg.attach_alternative(html_conent, 'text/html')
             msg.send()
+            #Mail system END
 
             messages.success(request, f'Your account has been created! You are now able to log in')
             return redirect('login')
@@ -43,8 +44,14 @@ def Login(request):
         if user is not None:
             form = login(request, user)
             messages.success(request, f'welcome {username} !!')
-            return redirect('index')
+            return redirect('home')
         else:
             messages.info(request, f'Account does not exist. Please sign in.')
     form = AuthenticationForm()
     return render(request, 'TimeFollow/login.html', {'form':form, 'title':'Log in'})
+
+def CreatePost(request):
+    if request.method == 'POST':
+        pass
+
+    return render(request, 'TimeFollow/createPost.html', {'title':'Create Post'})

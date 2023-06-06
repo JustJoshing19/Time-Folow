@@ -24,6 +24,7 @@ urlpatterns = [
 
     path('', include('TimeFollow.urls')),
     path('login/', tf_views.Login, name='login'),
-    path('logout/', auth.LogoutView.as_view(template_name = 'user/index.html'), name='logout'),
+    path('logout/', auth.LogoutView.as_view(template_name = 'TimeFollow/index.html'), name='logout'),
     path('register/', tf_views.register, name='register'),
+    path('createPost/', tf_views.CreatePost, name='createpost'),
 ]
