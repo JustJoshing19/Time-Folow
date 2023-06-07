@@ -2,5 +2,41 @@ textarea.createPost {
     width: auto;
     height: 10em;
     resize: none;
-    
+
+}
+
+a.menuitem {
+    text-decoration-line: none;
+    color: black;
+}
+
+th.menuHeader {
+    height: auto;
+}
+
+tr.menuitem {
+    height: 9vh;
+}
+
+td.menuitem {
+    text-align: center;
+}
+
+div.navbarcol {
+    background-color: cornflowerblue;
+    height: 100%;
+    padding-left: 0%;
+    padding-right: 0%;
+    text-justify: auto;
+}
+
+div.maincol {
+    background-color: whitesmoke;
+    height: 100%;
+    padding-left: 0%;
+    padding-right: 0%;
+}
+
+div.rowmain {
+    height: 100vh;
 }

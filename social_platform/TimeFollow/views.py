@@ -56,16 +56,19 @@ def Login(request):
 ########### Creating and Viewing ###########
 def CreatePost(request):
     if request.method == 'POST':
-        if request.POST['content'] != '':
+        if request.POST['content'] != '' and len(request.POST['content']) <= 200:
             content = request.POST['content']
             poster = request.user
+            
             newPost = Post(user=poster, postContent=content)
-            newPost.save()
+            #newPost.save()
             messages.success(request, f'Successfully posted!')
             return redirect('timeline')
         
         elif request.POST['content'] == '':
             messages.warning(request, f'Please enter a message before posting.')
+        elif len(request.POST['content']) > 200:
+            messages.warning(request, f'Please enter a message that is shorter than 200 characters.')
 
     return render(request, 'TimeFollow/createPost.html', {'title':'Create Post'})
 
