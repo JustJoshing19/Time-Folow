@@ -52,7 +52,7 @@
                         <tbody>
                             <th class="text-center menuHeader">
                                 <header>
-                                    <h1><b>Time Follow</b></h1>
+                                    <h1><b><a class="menuitem" href="{% url 'home' %}">Time Follow</a></b></h1>
                                 </header>
                             </th>
                             <tr class="menuitem">
@@ -75,14 +75,16 @@
                             <tr class="menuitem">
                                 <td class="menuitem">
                                     <h3>
-                                        <a class="menuitem" href="{% url 'timeline' %}"><span class="glyphicon glyphicon-time"></span> &nbsp; Timeline</a>
+                                        <a class="menuitem" href="{% url 'timeline' %}"><span
+                                                class="glyphicon glyphicon-time"></span> &nbsp; Timeline</a>
                                     </h3>
                                 </td>
                             </tr>
                             <tr class="menuitem">
                                 <td class="menuitem">
                                     <h3>
-                                        <a class="menuitem" href="{% url 'createpost' %}"><span class="glyphicon glyphicon-pushpin"></span> &nbsp; CreatePost</a>
+                                        <a class="menuitem" href="{% url 'createpost' %}"><span
+                                                class="glyphicon glyphicon-pushpin"></span> &nbsp; CreatePost</a>
                                     </h3>
                                 </td>
                             </tr>
@@ -90,13 +92,16 @@
                             <tr class="menuitem">
                                 <td class="menuitem">
                                     <h3>
-                                        <a class="menuitem" href="{% url 'register' %}"><span class="glyphicon glyphicon-user"></span> &nbsp; Sign up</a>
+                                        <a class="menuitem" href="{% url 'register' %}"><span
+                                                class="glyphicon glyphicon-user"></span> &nbsp; Sign up</a>
                                     </h3>
                                 </td>
-                            </tr><tr class="menuitem">
+                            </tr>
+                            <tr class="menuitem">
                                 <td class="menuitem">
                                     <h3>
-                                        <a class="menuitem" href="{% url 'login' %}"><span class="glyphicon glyphicon-log-in"></span> &nbsp; Log in</a>
+                                        <a class="menuitem" href="{% url 'login' %}"><span
+                                                class="glyphicon glyphicon-log-in"></span> &nbsp; Log in</a>
                                     </h3>
                                 </td>
                             </tr>
@@ -106,16 +111,8 @@
                 </div>
             </div>
             <div class="col-sm-10 maincol">
-                <div class="container-fluid page-header bg-primary text-center" style="margin: 0%;">
-                    <header>
-                        <h1>All Users</h1>
-                    </header>
-                </div>
                 {% block start %}
                 {% if user.is_authenticated %}
-                <div>
-                    
-                </div>
                 {% else %}
                 <center>
                     <h1>Log in, please.</h1>

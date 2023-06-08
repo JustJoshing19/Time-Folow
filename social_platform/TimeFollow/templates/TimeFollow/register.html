@@ -1,7 +1,11 @@
 {% extends "TimeFollow/index.html" %}
 {% load crispy_forms_tags %}
 {% block start %}
-
+<div class="container-fluid page-header bg-primary text-center" style="margin: 0%;">
+  <header>
+      <h1>Sign up</h1>
+  </header>
+</div>
 <div class="content-section col-md-8 col-md-offset-2">
   <form method="POST" style="border: 1px solid black; margin: 4%; padding:1%; border-radius:1%;">
     {% csrf_token %}

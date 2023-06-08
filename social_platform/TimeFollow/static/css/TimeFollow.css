@@ -40,3 +40,9 @@ div.maincol {
 div.rowmain {
     height: 100vh;
 }
+
+img.homescreenprofile {
+    max-height: 100%;
+    max-width: 100%;
+    display: block;
+}

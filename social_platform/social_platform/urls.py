@@ -27,5 +27,6 @@ urlpatterns = [
     path('logout/', auth.LogoutView.as_view(template_name = 'TimeFollow/index.html'), name='logout'),
     path('register/', tf_views.register, name='register'),
     path('createPost/', tf_views.CreatePost, name='createpost'),
-    path('timeline/', tf_views.ViewTimeline, name='timeline'),
+    path('timeline/', tf_views.ViewTimelineCurrentUser, name='timeline'),
+    path('timeline/<username>', tf_views.ViewTimeline, name='usertimeline'),
 ]

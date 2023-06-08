@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, get_user_model
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm
 from .forms import UserRegistrationForm
@@ -11,7 +11,13 @@ from TimeFollow.models import Post
 
 ########### Home page ###########
 def index(request):
-    return render(request, 'TimeFollow/Home.html', {'title':'Home'})
+    if request.method == 'POST':
+        username = request.POST['']
+
+    User = get_user_model()
+    all_users = User.objects.all()
+
+    return render(request, 'TimeFollow/Home.html', {'title':'Home', 'users': all_users})
 
 ########### Login and Register ###########
 def register(request):
@@ -72,8 +78,8 @@ def CreatePost(request):
 
     return render(request, 'TimeFollow/createPost.html', {'title':'Create Post'})
 
-def ViewTimeline(request):
-    if request.method == 'POST':
-        pass
-    
-    return render(request, 'TimeFollow/timeline.html', {'title':'Timeline'})
+def ViewTimelineCurrentUser(request):
+    return render(request, 'TimeFollow/timeline.html', {'title':'Timeline', 'cUser': request.user})
+
+def ViewTimeline(request, username):    
+    return render(request, 'TimeFollow/timeline.html', {'title':'Timeline', 'cUser': username})

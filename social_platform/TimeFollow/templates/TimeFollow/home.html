@@ -1,7 +1,21 @@
 {% extends 'TimeFollow/index.html' %}
 {% load crispy_forms_tags %}
+{% load static %}
 {% block start %}
-
-
+<div class="container-fluid page-header bg-primary text-center" style="margin: 0%;">
+    <header>
+        <h1>All Users</h1>
+    </header>
+</div>
+{% for cUser in users %}
+<div class="card"
+    style="width: 18rem; border: 10px; border-color: black; background-color: bisque; padding: 10px;margin: 10px;">
+    <img src="{% static 'images\defaultProfile.png' %}" class="homescreenprofile" alt="defaultProfile">
+    <div class="card-body">
+        <h5 class="card-title">{{ cUser }}</h5>
+        <a href="{% url 'usertimeline' username=cUser %}" class="btn btn-primary">View Psots</a>
+    </div>
+</div>
+{% endfor %}
 
 {% endblock start %}
