@@ -1,11 +1,32 @@
 {% extends 'TimeFollow/index.html' %}
 {% load crispy_forms_tags %}
 {% block start %}
-
 <div class="container-fluid page-header bg-primary text-center" style="margin: 0%;">
     <header>
         <h1>{{cUser}}'s timeline</h1>
     </header>
 </div>
 
+{% if hasPosts %}
+<div class="timeline">
+    {% for p in posts %}
+    <div class="border post-container">
+        <span>
+        <p class="text_break">
+           {{ p.postContent }}
+        </p>
+        </span>
+        <sub>
+            {{ p.timeStamp }}
+        </sub>
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+<div class="" style="text-align: justify">
+        <p class="text-center test2" style="font-size: large;">
+            This user has not posted anything yet.
+        </p>
+</div>
+{% endif %}
 {% endblock start %}

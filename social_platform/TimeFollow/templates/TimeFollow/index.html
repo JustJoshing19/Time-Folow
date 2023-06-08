@@ -10,7 +10,6 @@
     <meta name="title" content="project">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta name="language" content="English">
-    <meta name="author" content="vinayak sharma(change when edited)">
 
     <title>{{title}}</title>
 
@@ -112,12 +111,6 @@
             </div>
             <div class="col-sm-10 maincol">
                 {% block start %}
-                {% if user.is_authenticated %}
-                {% else %}
-                <center>
-                    <h1>Log in, please.</h1>
-                </center>
-                {% endif %}
                 {% endblock %}
             </div>
         </div>

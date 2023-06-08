@@ -1,9 +1,85 @@
+/* Test class */
+
+.test {
+    background-color: brown;
+}
+
+.test2 {
+    background-color: blanchedalmond;
+}
+
+.test3 {
+    background-color: black;
+}
+
+/* end */
+
+/* Create post page */
+
 textarea.createPost {
     width: auto;
     height: 10em;
     resize: none;
-
 }
+
+/* View timeline page */
+
+div.post-container {
+    margin: 20px;
+    padding: 1%;
+    height: auto;
+    border-width: 10px;
+    border-radius: 10px;
+    border-color: black;
+    background-color: cornflowerblue;
+    position: relative;
+    z-index: 1;
+    overflow-wrap: break-word;
+}
+
+div.post-container::before {
+    content: '';
+    position: absolute;
+    align-self: center;
+    width: 0;
+    height: 0;
+    left: -15px;
+    top: 5px;
+    z-index: 0;
+    border: medium solid cornflowerblue;
+    border-width: 20px 20px 20px 0;
+    border-color: transparent cornflowerblue transparent transparent;
+}
+
+div.timeline {
+    padding-left: 2%;
+    margin: 2%;
+    margin-top: 3%;
+}
+
+div.timeline::before{
+    content: 'Now';
+    position: absolute;
+    border: medium solid black;
+    border-radius: 10px;
+    width: auto;
+    font-size: large;
+    padding: 2px;
+    top: 10vh;
+    left: 0;
+}
+
+div.timeline::after{
+    content: '';
+    position: absolute;
+    width: 5px;
+    background-color: black;
+    left: 2.2vh;
+    top: 13.7vh;
+    bottom: 0;
+}
+
+/* Side navbar */
 
 a.menuitem {
     text-decoration-line: none;
@@ -40,6 +116,8 @@ div.maincol {
 div.rowmain {
     height: 100vh;
 }
+
+/* Hoem Screen card */
 
 img.homescreenprofile {
     max-height: 100%;

@@ -13,9 +13,8 @@
     <img src="{% static 'images\defaultProfile.png' %}" class="homescreenprofile" alt="defaultProfile">
     <div class="card-body">
         <h5 class="card-title">{{ cUser }}</h5>
-        <a href="{% url 'usertimeline' username=cUser %}" class="btn btn-primary">View Psots</a>
+        <a href="{% url 'usertimeline' username=cUser %}" class="btn btn-primary">View Posts</a>
     </div>
 </div>
 {% endfor %}
-
 {% endblock start %}

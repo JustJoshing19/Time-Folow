@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
-from django.contrib.auth import authenticate, login, get_user_model
+from django.contrib.auth import authenticate, login, get_user_model, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm
 from .forms import UserRegistrationForm
@@ -11,13 +11,14 @@ from TimeFollow.models import Post
 
 ########### Home page ###########
 def index(request):
-    if request.method == 'POST':
-        username = request.POST['']
-
     User = get_user_model()
     all_users = User.objects.all()
 
     return render(request, 'TimeFollow/Home.html', {'title':'Home', 'users': all_users})
+
+def logoutUser(request):
+    logout(request)
+    return redirect('home')
 
 ########### Login and Register ###########
 def register(request):
@@ -67,7 +68,7 @@ def CreatePost(request):
             poster = request.user
             
             newPost = Post(user=poster, postContent=content)
-            #newPost.save()
+            newPost.save()
             messages.success(request, f'Successfully posted!')
             return redirect('timeline')
         
@@ -79,7 +80,16 @@ def CreatePost(request):
     return render(request, 'TimeFollow/createPost.html', {'title':'Create Post'})
 
 def ViewTimelineCurrentUser(request):
-    return render(request, 'TimeFollow/timeline.html', {'title':'Timeline', 'cUser': request.user})
+    posts = Post.objects.all().filter(user_id = request.user)
+    hasPost = True
+    if not posts:
+        hasPost = False
+    return render(request, 'TimeFollow/timeline.html', {'title':'Timeline', 'cUser': request.user, 'posts': posts, 'hasPosts': hasPost})
 
-def ViewTimeline(request, username):    
-    return render(request, 'TimeFollow/timeline.html', {'title':'Timeline', 'cUser': username})
+def ViewTimeline(request, username):
+    selectedUser = get_user_model().objects.all().filter(username=username)
+    posts = Post.objects.all().filter(user_id = selectedUser[0])
+    hasPost = True
+    if not posts:
+        hasPost = False
+    return render(request, 'TimeFollow/timeline.html', {'title':'Timeline', 'cUser': username, 'posts':posts, 'hasPosts': hasPost})  
