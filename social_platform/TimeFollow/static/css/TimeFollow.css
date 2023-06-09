@@ -31,7 +31,7 @@ div.post-container {
     border-width: 10px;
     border-radius: 10px;
     border-color: black;
-    background-color: cornflowerblue;
+    background-color: rgb(139, 73, 73);
     position: relative;
     z-index: 1;
     overflow-wrap: break-word;
@@ -46,9 +46,9 @@ div.post-container::before {
     left: -15px;
     top: 5px;
     z-index: 0;
-    border: medium solid cornflowerblue;
+    border: medium solid rgb(139, 73, 73);
     border-width: 20px 20px 20px 0;
-    border-color: transparent cornflowerblue transparent transparent;
+    border-color: transparent rgb(139, 73, 73) transparent transparent;
 }
 
 div.timeline {
@@ -99,7 +99,7 @@ td.menuitem {
 }
 
 div.navbarcol {
-    background-color: cornflowerblue;
+    background-color: rgb(139, 73, 73);
     height: 100%;
     padding-left: 0%;
     padding-right: 0%;
@@ -111,10 +111,12 @@ div.maincol {
     height: 100%;
     padding-left: 0%;
     padding-right: 0%;
+    overflow-y: auto;
 }
 
 div.rowmain {
-    height: 100vh;
+    height: 100%;
+    overflow-y: auto;
 }
 
 /* Hoem Screen card */
@@ -123,4 +125,8 @@ img.homescreenprofile {
     max-height: 100%;
     max-width: 100%;
     display: block;
+}
+
+.container-fluid{
+    background-color: rgb(236, 106, 106);
 }
