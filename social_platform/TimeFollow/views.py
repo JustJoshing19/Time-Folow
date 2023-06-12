@@ -3,7 +3,7 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login, get_user_model, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm
-from .forms import UserRegistrationForm
+from .forms import UserRegistrationForm, NewPost
 from django.core.mail import send_mail, EmailMultiAlternatives
 from django.template.loader import get_template
 from django.template import Context
@@ -62,7 +62,7 @@ def Login(request):
 
 ########### Creating and Viewing ###########
 def CreatePost(request):
-    if request.method == 'POST':
+    if request.method == 'POST':            # To be changed for new model form
         if request.POST['content'] != '' and len(request.POST['content']) <= 200:
             content = request.POST['content']
             poster = request.user
@@ -77,7 +77,8 @@ def CreatePost(request):
         elif len(request.POST['content']) > 200:
             messages.warning(request, f'Please enter a message that is shorter than 200 characters.')
 
-    return render(request, 'TimeFollow/createPost.html', {'title':'Create Post'})
+    form = NewPost()
+    return render(request, 'TimeFollow/createPost.html', {'title':'Create Post', 'form': form})
 
 def ViewTimelineCurrentUser(request):
     posts = Post.objects.all().filter(user_id = request.user)
