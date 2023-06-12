@@ -9,10 +9,7 @@
         </label>
     </div>
     {% csrf_token %}
-    <form action="">
-        {{ form|crispy }}
-        <button type="submit" value="submit">Post</button>
-    </form>
+    {% crispy form %}
 </div>
 
 {% endblock start %}
