@@ -18,6 +18,7 @@ def index(request):
 
 def logoutUser(request):
     logout(request)
+    messages.success(request, "You have been Logged out.")
     return redirect('home')
 
 ########### Login and Register ###########
@@ -56,36 +57,42 @@ def Login(request):
             
             return redirect('home')
         else:
-            messages.info(request, f'Account does not exist. Please sign in.')
+            messages.warning(request, f'Account does not exist. Please use valid details.')
     form = AuthenticationForm()
     return render(request, 'TimeFollow/login.html', {'form':form, 'title':'Log in'})
 
 ########### Creating and Viewing ###########
 def CreatePost(request):
     if request.method == 'POST':            # To be changed for new model form
-        if request.POST['postContent'] != '':
-            content = request.POST['postContent']
-            poster = request.user
-            
-            newPost = Post(user=poster, postContent=content)
-            newPost.save()
-            messages.success(request, f'Successfully posted!')
-            return redirect('timeline')
+        content = request.POST['postContent']
+        poster = request.user
+        newPost = Post(user=poster, postContent=content)
+        newPost.save()
+        messages.success(request, 'Succesfully posted!')
+        return redirect('timeline')
 
     form = NewPost()
     return render(request, 'TimeFollow/createPost.html', {'title':'Create Post', 'form': form})
 
 def ViewTimelineCurrentUser(request):
-    posts = Post.objects.all().filter(user_id = request.user)
+    posts = Post.objects.all().filter(user_id = request.user).order_by('-timeStamp')
     hasPost = True
     if not posts:
         hasPost = False
     return render(request, 'TimeFollow/timeline.html', {'title':'Timeline', 'cUser': request.user, 'posts': posts, 'hasPosts': hasPost})
 
 def ViewTimeline(request, username):
-    selectedUser = get_user_model().objects.all().filter(username=username)
+    selectedUser = get_user_model().objects.all().filter(username=username).order_by('-timeStamp')
     posts = Post.objects.all().filter(user_id = selectedUser[0])
     hasPost = True
     if not posts:
         hasPost = False
-    return render(request, 'TimeFollow/timeline.html', {'title':'Timeline', 'cUser': username, 'posts':posts, 'hasPosts': hasPost})  
+    return render(request, 'TimeFollow/timeline.html', {'title':'Timeline', 'cUser': username, 'posts':posts, 'hasPosts': hasPost})
+
+########### Creating and Viewing ###########
+
+def viewProfile(request):
+    if request.method == 'POST':
+        pass
+
+    return render(request, 'TimeFollow/profile.html', {'UserInfoForm': '', 'title': 'Profile'})

@@ -1,0 +1,22 @@
+{% extends "TimeFollow/index.html" %}
+{% load crispy_forms_tags %}
+{% block start %}
+
+<div class="container-fluid page-header text-center" style="margin: 0%;">
+    <header>
+        <h1>{{ user.username }}'s profile</h1>
+    </header>
+</div>
+
+<div class="container-fluid">
+    {% if messages %}
+    {% for message in messages %}
+    <div class="alert alert-success" role="alert">
+        <strong>{{ message }}</strong>
+      </div>
+    {% endfor %}
+    {% endif %}
+</div>
+
+
+{% endblock start %}

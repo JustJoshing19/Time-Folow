@@ -29,17 +29,6 @@
     <!-- main css-->
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/TimeFollow.css' %}">
-
-    {% if messages %}
-    {% for message in messages %}
-
-    <script>
-        alert("{{ message }}")
-    </script>
-
-    {% endfor %}
-    {% endif %}
-
 </head>
 
 <body>
@@ -83,7 +72,15 @@
                                 <td class="menuitem">
                                     <h3>
                                         <a class="menuitem" href="{% url 'createpost' %}"><span
-                                                class="glyphicon glyphicon-pushpin"></span> &nbsp; CreatePost</a>
+                                                class="glyphicon glyphicon-pushpin"></span> &nbsp; Create Post</a>
+                                    </h3>
+                                </td>
+                            </tr>
+                            <tr class="menuitem">
+                                <td class="menuitem">
+                                    <h3>
+                                        <a class="menuitem" href="{% url 'profile' %}"><span
+                                                class="glyphicon glyphicon-user"></span> &nbsp; View Profile</a>
                                     </h3>
                                 </td>
                             </tr>

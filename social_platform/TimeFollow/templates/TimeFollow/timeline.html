@@ -7,14 +7,24 @@
     </header>
 </div>
 
+<div class="container-fluid">
+    {% if messages %}
+    {% for message in messages %}
+    <div class="alert alert-success" role="alert">
+        <strong>{{ message }}</strong>
+      </div>
+    {% endfor %}
+    {% endif %}
+</div>
+
 {% if hasPosts %}
 <div class="timeline">
     {% for p in posts %}
     <div class="border post-container">
         <span>
-        <p class="text_break">
-           {{ p.postContent }}
-        </p>
+            <p class="text_break">
+                {{ p.postContent }}
+            </p>
         </span>
         <sub>
             {{ p.timeStamp }}
@@ -24,9 +34,9 @@
 </div>
 {% else %}
 <div class="" style="text-align: justify">
-        <p class="text-center test2" style="font-size: large;">
-            This user has not posted anything yet.
-        </p>
+    <p class="text-center test2" style="font-size: large;">
+        This user has not posted anything yet.
+    </p>
 </div>
 {% endif %}
 {% endblock start %}

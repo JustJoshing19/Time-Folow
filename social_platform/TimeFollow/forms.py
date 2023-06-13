@@ -20,10 +20,11 @@ class UserRegistrationForm(UserCreationForm):
 
 
 class NewPost(forms.ModelForm):
-    postContent = forms.CharField(widget=forms.Textarea(
-        attrs={'rows':4, 'style':'resize: None'}
-        ),
-        max_length=200)
+    postContent = forms.CharField(
+        widget=forms.Textarea(
+            attrs={'rows':4, 'style':'resize: None'}
+            ),
+        max_length=200, label="Post content")
     
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
