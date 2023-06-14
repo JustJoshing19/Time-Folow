@@ -100,7 +100,7 @@ def viewProfile(request):
         CurrentUser.last_name = form['last_name'].data
         CurrentUser.email = form['email'].data
         CurrentUser.save()
-        #messages.success(request, f'Your account has been Updated!')
+        messages.success(request, f'Your account has been Updated!')
 
     form = EditPost(instance=request.user)
     return render(request, 'TimeFollow/profile.html', {'UserInfoForm': '', 'title': 'Profile', 'form': form})
