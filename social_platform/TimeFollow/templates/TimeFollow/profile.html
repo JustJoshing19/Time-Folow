@@ -18,5 +18,9 @@
     {% endif %}
 </div>
 
+<div class="container-fluid">
+    {% csrf_token %}
+    {% crispy form %}
+</div>
 
 {% endblock start %}

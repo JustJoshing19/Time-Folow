@@ -9,6 +9,7 @@ from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit
 from .models import Post
 
+######## New User Form ########
 class UserRegistrationForm(UserCreationForm):
     email = forms.EmailField()
     phone_no = forms.CharField(max_length=20)
@@ -18,7 +19,7 @@ class UserRegistrationForm(UserCreationForm):
         model = User
         fields = ['username', 'email', 'phone_no', 'password1', 'password2']
 
-
+######## New Post Form ########
 class NewPost(forms.ModelForm):
     postContent = forms.CharField(
         widget=forms.Textarea(
@@ -34,9 +35,27 @@ class NewPost(forms.ModelForm):
         self.helper.form_method = 'post'
         self.helper.form_action = 'createpost'
 
-        self.helper.add_input(Submit('create post','Create-Post',))
+        self.helper.add_input(Submit('create post','Create Post',))
 
 
     class Meta:
         model = Post
         fields = [ "postContent"]
+
+######## Edit Profile Form ########
+class EditPost(forms.ModelForm):
+    
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.form_id = 'id-newPost'
+        self.helper.form_class = 'blueForms'
+        self.helper.form_method = 'post'
+        self.helper.form_action = 'profile'
+
+        self.helper.add_input(Submit('Save changes', 'Save Changes',))
+
+    class Meta:
+        model = User
+        exclude = ["id", "password", "groups", "user_permissions", "is_superuser", "is_staff", "is_active", "last_login", "date_joined"]
+        

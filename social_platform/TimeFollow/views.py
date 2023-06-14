@@ -3,7 +3,7 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login, get_user_model, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm
-from .forms import UserRegistrationForm, NewPost
+from .forms import UserRegistrationForm, NewPost, EditPost
 from django.core.mail import send_mail, EmailMultiAlternatives
 from django.template.loader import get_template
 from django.template import Context
@@ -89,10 +89,18 @@ def ViewTimeline(request, username):
         hasPost = False
     return render(request, 'TimeFollow/timeline.html', {'title':'Timeline', 'cUser': username, 'posts':posts, 'hasPosts': hasPost})
 
-########### Creating and Viewing ###########
+########### Editing and Viewing Profile ###########
 
 def viewProfile(request):
     if request.method == 'POST':
-        pass
+        form = EditPost(request.POST)
+        CurrentUser = request.user
+        CurrentUser.username = form['username'].data
+        CurrentUser.first_name = form['first_name'].data
+        CurrentUser.last_name = form['last_name'].data
+        CurrentUser.email = form['email'].data
+        CurrentUser.save()
+        #messages.success(request, f'Your account has been Updated!')
 
-    return render(request, 'TimeFollow/profile.html', {'UserInfoForm': '', 'title': 'Profile'})
+    form = EditPost(instance=request.user)
+    return render(request, 'TimeFollow/profile.html', {'UserInfoForm': '', 'title': 'Profile', 'form': form})
