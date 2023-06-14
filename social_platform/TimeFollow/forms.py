@@ -6,7 +6,7 @@ from django.core.files.base import File
 from django.db.models.base import Model
 from django.forms.utils import ErrorList
 from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Submit
+from crispy_forms.layout import Submit, Row, Column, Layout
 from .models import Post
 
 ######## New User Form ########
@@ -52,8 +52,19 @@ class EditPost(forms.ModelForm):
         self.helper.form_class = 'blueForms'
         self.helper.form_method = 'post'
         self.helper.form_action = 'profile'
-
-        self.helper.add_input(Submit('Save changes', 'Save Changes',))
+        self.helper.layout = Layout(
+            Row(
+                Column('username', css_class='form-group col-md-12 mb-0')
+            ),
+            Row(
+                Column('first_name', css_class='form-group col-md-6 mb-0'),
+                Column('last_name', css_class='form-group col-md-6 mb-0')
+            ),
+            Row(
+                Column('email', css_class='form-group col-md-12 mb-0')
+            ),
+            Submit('Save changes', 'Save Changes',)
+        )
 
     class Meta:
         model = User
