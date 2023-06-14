@@ -7,6 +7,17 @@
         <h1>All Users</h1>
     </header>
 </div>
+
+<div class="container-fluid">
+    {% if messages %}
+    {% for message in messages %}
+    <div class="alert alert-success" role="alert">
+        <strong>{{ message }}</strong>
+      </div>
+    {% endfor %}
+    {% endif %}
+</div>
+
 {% for cUser in users %}
 <div class="card"
     style="width: 18rem; border: 10px; border-color: black; background-color: bisque; padding: 10px;margin: 10px;">

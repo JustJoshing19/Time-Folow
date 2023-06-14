@@ -3,7 +3,7 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login, get_user_model, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm
-from .forms import UserRegistrationForm
+from .forms import UserRegistrationForm, NewPost, EditPost
 from django.core.mail import send_mail, EmailMultiAlternatives
 from django.template.loader import get_template
 from django.template import Context
@@ -18,6 +18,7 @@ def index(request):
 
 def logoutUser(request):
     logout(request)
+    messages.success(request, "You have been Logged out.")
     return redirect('home')
 
 ########### Login and Register ###########
@@ -56,40 +57,50 @@ def Login(request):
             
             return redirect('home')
         else:
-            messages.info(request, f'Account does not exist. Please sign in.')
+            messages.warning(request, f'Account does not exist. Please use valid details.')
     form = AuthenticationForm()
     return render(request, 'TimeFollow/login.html', {'form':form, 'title':'Log in'})
 
 ########### Creating and Viewing ###########
 def CreatePost(request):
-    if request.method == 'POST':
-        if request.POST['content'] != '' and len(request.POST['content']) <= 200:
-            content = request.POST['content']
-            poster = request.user
-            
-            newPost = Post(user=poster, postContent=content)
-            newPost.save()
-            messages.success(request, f'Successfully posted!')
-            return redirect('timeline')
-        
-        elif request.POST['content'] == '':
-            messages.warning(request, f'Please enter a message before posting.')
-        elif len(request.POST['content']) > 200:
-            messages.warning(request, f'Please enter a message that is shorter than 200 characters.')
+    if request.method == 'POST':            # To be changed for new model form
+        content = request.POST['postContent']
+        poster = request.user
+        newPost = Post(user=poster, postContent=content)
+        newPost.save()
+        messages.success(request, 'Succesfully posted!')
+        return redirect('timeline')
 
-    return render(request, 'TimeFollow/createPost.html', {'title':'Create Post'})
+    form = NewPost()
+    return render(request, 'TimeFollow/createPost.html', {'title':'Create Post', 'form': form})
 
 def ViewTimelineCurrentUser(request):
-    posts = Post.objects.all().filter(user_id = request.user)
+    posts = Post.objects.all().filter(user_id = request.user).order_by('-timeStamp')
     hasPost = True
     if not posts:
         hasPost = False
     return render(request, 'TimeFollow/timeline.html', {'title':'Timeline', 'cUser': request.user, 'posts': posts, 'hasPosts': hasPost})
 
 def ViewTimeline(request, username):
-    selectedUser = get_user_model().objects.all().filter(username=username)
+    selectedUser = get_user_model().objects.all().filter(username=username).order_by('-timeStamp')
     posts = Post.objects.all().filter(user_id = selectedUser[0])
     hasPost = True
     if not posts:
         hasPost = False
-    return render(request, 'TimeFollow/timeline.html', {'title':'Timeline', 'cUser': username, 'posts':posts, 'hasPosts': hasPost})  
+    return render(request, 'TimeFollow/timeline.html', {'title':'Timeline', 'cUser': username, 'posts':posts, 'hasPosts': hasPost})
+
+########### Editing and Viewing Profile ###########
+
+def viewProfile(request):
+    if request.method == 'POST':
+        form = EditPost(request.POST)
+        CurrentUser = request.user
+        CurrentUser.username = form['username'].data
+        CurrentUser.first_name = form['first_name'].data
+        CurrentUser.last_name = form['last_name'].data
+        CurrentUser.email = form['email'].data
+        CurrentUser.save()
+        #messages.success(request, f'Your account has been Updated!')
+
+    form = EditPost(instance=request.user)
+    return render(request, 'TimeFollow/profile.html', {'UserInfoForm': '', 'title': 'Profile', 'form': form})
