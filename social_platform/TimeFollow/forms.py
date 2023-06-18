@@ -7,17 +7,18 @@ from django.db.models.base import Model
 from django.forms.utils import ErrorList
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit, Row, Column, Layout
-from .models import Post
+from .models import Post, CustomUser
+from phonenumber_field.formfields import PhoneNumberField
 
 ######## New User Form ########
 class UserRegistrationForm(UserCreationForm):
     email = forms.EmailField()
-    phone_no = forms.CharField(max_length=20)
+    phone_num = PhoneNumberField()
     first_name = forms.CharField(max_length=20)
     last_name = forms.CharField(max_length=20)
     class Meta:
-        model = User
-        fields = ['username', 'email', 'phone_no', 'password1', 'password2']
+        model = CustomUser
+        fields = ['username', 'email', 'phone_num', 'password1', 'password2']
 
 ######## New Post Form ########
 class NewPost(forms.ModelForm):
@@ -34,9 +35,7 @@ class NewPost(forms.ModelForm):
         self.helper.form_class = 'blueForms'
         self.helper.form_method = 'post'
         self.helper.form_action = 'createpost'
-
         self.helper.add_input(Submit('create post','Create Post',))
-
 
     class Meta:
         model = Post
@@ -44,9 +43,15 @@ class NewPost(forms.ModelForm):
 
 ######## Edit Profile Form ########
 class EditPost(forms.ModelForm):
+    phone_num = PhoneNumberField()
     
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+
+        self.fields['first_name'].required = True
+        self.fields['last_name'].required = True
+        self.fields['email'].required = True
+
         self.helper = FormHelper()
         self.helper.form_id = 'id-newPost'
         self.helper.form_class = 'blueForms'
@@ -61,12 +66,13 @@ class EditPost(forms.ModelForm):
                 Column('last_name', css_class='form-group col-md-6 mb-0')
             ),
             Row(
-                Column('email', css_class='form-group col-md-12 mb-0')
+                Column('email', css_class='form-group col-md-6 mb-0'),
+                Column('phone_num', css_class='form-group col-md-6 mb-0', type='tel')
             ),
             Submit('Save changes', 'Save Changes',)
         )
 
     class Meta:
-        model = User
+        model = CustomUser
         exclude = ["id", "password", "groups", "user_permissions", "is_superuser", "is_staff", "is_active", "last_login", "date_joined"]
         

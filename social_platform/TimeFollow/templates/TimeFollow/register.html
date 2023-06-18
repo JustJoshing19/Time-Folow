@@ -3,9 +3,23 @@
 {% block start %}
 <div class="container-fluid page-header text-center" style="margin: 0%;">
   <header>
-      <h1>Sign up</h1>
+    <h1>Sign up</h1>
   </header>
 </div>
+
+<div class="container-fluid">
+  {% if messages %}
+  <div class="alert alert-{{ alerttype }}" role="alert">
+    <strong>Errors:</strong>
+    <ul class="list-group">
+      {% for message in messages %}
+      <li class="alert">{{ message }}</li>
+      {% endfor %}
+    </ul>
+  </div>
+  {% endif %}
+</div>
+
 <div class="content-section col-md-8 col-md-offset-2">
   <form method="POST" style="border: 1px solid black; margin: 4%; padding:1%; border-radius:1%;">
     {% csrf_token %}
@@ -13,10 +27,12 @@
       {{ form|crispy}}
     </fieldset>
     <center>
-      <button style="background: black; padding:2%; font-size: 2rem; color:white;" class="btn btn-outline-info" type="submit"><span class="glyphicon glyphicon-check"></span> &nbsp; sign up</button>
+      <button style="background: black; padding:2%; font-size: 2rem; color:white;" class="btn btn-outline-info"
+        type="submit"><span class="glyphicon glyphicon-check"></span> &nbsp; sign up</button>
     </center>
     <br />
-    <sub><a href="{% url 'login' %}" style="text-decoration: none; color: blue; padding:3%; cursor:pointer;">Already have an account ?</a></sub>
+    <sub><a href="{% url 'login' %}" style="text-decoration: none; color: blue; padding:3%; cursor:pointer;">Already
+        have an account ?</a></sub>
   </form>
 </div>
 {% endblock start %}

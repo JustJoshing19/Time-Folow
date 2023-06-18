@@ -9,11 +9,14 @@
 
 <div class="container-fluid">
   {% if messages %}
-  {% for message in messages %}
-  <div class="alert alert-danger" role="alert">
-      <strong>{{ message }}</strong>
-    </div>
-  {% endfor %}
+  <div class="alert alert-{{ alerttype }}" role="alert">
+    <strong>Errors:</strong>
+    <ul class="list-group">
+      {% for message in messages %}
+      <li class="alert">{{ message }}</li>
+      {% endfor %}
+    </ul>
+  </div>
   {% endif %}
 </div>
 
