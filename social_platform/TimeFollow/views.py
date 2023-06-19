@@ -27,7 +27,7 @@ def logoutUser(request):
     return redirect('home')
 
 ########### Login and Register ###########
-def register(request):          # TODO Add saving of first and last names.
+def register(request):
     AlertType = ''
 
     if request.method == "POST":

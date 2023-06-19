@@ -18,7 +18,7 @@ class UserRegistrationForm(UserCreationForm):
     last_name = forms.CharField(max_length=20)
     class Meta:
         model = CustomUser
-        fields = ['username', 'email', 'phone_num', 'password1', 'password2']
+        fields = ['username', 'email', 'phone_num', 'password1', 'password2', 'first_name', 'last_name']
     
     def clean_phone_num(self):
         phone_no = self.cleaned_data.get('phone_num', None)
