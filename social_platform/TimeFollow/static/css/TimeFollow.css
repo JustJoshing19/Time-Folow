@@ -119,12 +119,19 @@ div.rowmain {
     overflow-y: auto;
 }
 
-/* Hoem Screen card */
+/* Home Screen card */
 
 img.homescreenprofile {
     max-height: 100%;
     max-width: 100%;
     display: block;
+}
+
+/* Alerts */
+
+li.alert {
+    margin-left: 3%;
+    padding: 0 0;
 }
 
 /* .container-fluid{

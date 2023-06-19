@@ -1,13 +1,16 @@
 from django.shortcuts import render, redirect
+from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, get_user_model, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm
-from .forms import UserRegistrationForm, NewPost, EditPost
+from .forms import UserRegistrationForm, NewPost, EditProfile
 from django.core.mail import send_mail, EmailMultiAlternatives
 from django.template.loader import get_template
 from django.template import Context
 from TimeFollow.models import Post
+from .formErr import RegisterFormErrMessages
+currentUser = settings.AUTH_USER_MODEL
 
 ########### Home page ###########
 def index(request):
@@ -19,10 +22,14 @@ def index(request):
 def logoutUser(request):
     logout(request)
     messages.success(request, "You have been Logged out.")
+    AlertType = 'success'
+    request.session['alerttype'] = AlertType
     return redirect('home')
 
 ########### Login and Register ###########
 def register(request):
+    AlertType = ''
+
     if request.method == "POST":
         form = UserRegistrationForm(request.POST)
         if form.is_valid():
@@ -41,12 +48,27 @@ def register(request):
             #Mail system END
 
             messages.success(request, f'Your account has been created! You are now able to log in')
+            AlertType = 'success'
+            request.session['alerttype'] = AlertType
             return redirect('login')
+        else:
+            err = form.errors.as_data()
+            errs = RegisterFormErrMessages(err)
+            for err in errs:
+                messages.warning(request, err)
+            AlertType = "danger"
     else:
         form = UserRegistrationForm()
-    return render(request, 'TimeFollow/register.html', {'form': form, 'title':'register here'})
+    return render(request, 'TimeFollow/register.html', {'form': form, 'title':'register here', 'alerttype':AlertType})
 
 def Login(request):
+    if 'alerttype' in request.session:
+        AlertType = request.session['alerttype']
+    else:
+        AlertType = ''
+
+    form = AuthenticationForm()
+
     if request.method == 'POST':
         username = request.POST['username']
         password = request.POST['password']
@@ -54,12 +76,15 @@ def Login(request):
         if user is not None:
             form = login(request, user)
             messages.success(request, f'welcome {username} !!')
-            
+            AlertType = "success"
+            request.session['alerttype'] = AlertType
             return redirect('home')
         else:
             messages.warning(request, f'Account does not exist. Please use valid details.')
-    form = AuthenticationForm()
-    return render(request, 'TimeFollow/login.html', {'form':form, 'title':'Log in'})
+            AlertType = "danger"
+            form = AuthenticationForm(initial={'username':username})
+            
+    return render(request, 'TimeFollow/login.html', {'form':form, 'title':'Log in', 'alerttype':AlertType})
 
 ########### Creating and Viewing ###########
 def CreatePost(request):
@@ -69,38 +94,47 @@ def CreatePost(request):
         newPost = Post(user=poster, postContent=content)
         newPost.save()
         messages.success(request, 'Succesfully posted!')
+        AlertType = "success"
+        request.session['alerttype'] = AlertType
         return redirect('timeline')
 
     form = NewPost()
     return render(request, 'TimeFollow/createPost.html', {'title':'Create Post', 'form': form})
 
 def ViewTimelineCurrentUser(request):
+    if 'alerttype' in request.session:
+        AlertType = request.session['alerttype']
+    else:
+        AlertType = ''
     posts = Post.objects.all().filter(user_id = request.user).order_by('-timeStamp')
     hasPost = True
     if not posts:
         hasPost = False
-    return render(request, 'TimeFollow/timeline.html', {'title':'Timeline', 'cUser': request.user, 'posts': posts, 'hasPosts': hasPost})
+    return render(request, 'TimeFollow/timeline.html', {'title':'Timeline', 'cUser': request.user, 'posts': posts, 'hasPosts': hasPost, 'alerttype':AlertType})
 
 def ViewTimeline(request, username):
-    selectedUser = get_user_model().objects.all().filter(username=username).order_by('-timeStamp')
-    posts = Post.objects.all().filter(user_id = selectedUser[0])
+    selectedUser = get_user_model().objects.all().filter(username=username)
+    posts = Post.objects.all().filter(user_id = selectedUser[0]).order_by('-timeStamp')
     hasPost = True
     if not posts:
         hasPost = False
     return render(request, 'TimeFollow/timeline.html', {'title':'Timeline', 'cUser': username, 'posts':posts, 'hasPosts': hasPost})
 
 ########### Editing and Viewing Profile ###########
-
 def viewProfile(request):
+    AlertType = ''
     if request.method == 'POST':
-        form = EditPost(request.POST)
-        CurrentUser = request.user
-        CurrentUser.username = form['username'].data
-        CurrentUser.first_name = form['first_name'].data
-        CurrentUser.last_name = form['last_name'].data
-        CurrentUser.email = form['email'].data
-        CurrentUser.save()
-        #messages.success(request, f'Your account has been Updated!')
+        form = EditProfile(request.POST, instance=request.user)
+        if form.is_valid():
+            form.save()
+            messages.success(request, f'Your account has been Updated!')
+            AlertType = 'success'
+        else:
+            err = form.errors.as_data()
+            errs = RegisterFormErrMessages(err)
+            for err in errs:
+                messages.warning(request, err)
+            AlertType = "danger"
 
-    form = EditPost(instance=request.user)
-    return render(request, 'TimeFollow/profile.html', {'UserInfoForm': '', 'title': 'Profile', 'form': form})
+    form = EditProfile(instance=request.user)
+    return render(request, 'TimeFollow/profile.html', {'UserInfoForm': '', 'title': 'Profile', 'form': form, 'alerttype':AlertType})

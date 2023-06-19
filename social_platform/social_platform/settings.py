@@ -38,6 +38,9 @@ INSTALLED_APPS = [
     'crispy_forms',
     'crispy_bootstrap4',
 
+    #phonenumber-fields
+    'phonenumber_field',
+
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -132,6 +135,8 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
+# Email
+
 EMAIL_BACKEND ='django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = "smtp.gmail.com"
 EMAIL_PORT=587
@@ -139,3 +144,8 @@ EMAIL_USE_TLS=True
 
 EMAIL_HOST_USER="beebob1919@gmail.com"
 EMAIL_HOST_PASSWORD="jspqaejcrqofvuut"
+
+# CustomUser
+
+AUTH_USER_MODEL = 'TimeFollow.CustomUser'
+PHONENUMBER_DEFAULT_REGION = 'ZA'
