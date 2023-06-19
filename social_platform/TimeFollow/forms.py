@@ -19,6 +19,16 @@ class UserRegistrationForm(UserCreationForm):
     class Meta:
         model = CustomUser
         fields = ['username', 'email', 'phone_num', 'password1', 'password2']
+    
+    def clean_phone_num(self):
+        phone_no = self.cleaned_data.get('phone_num', None)
+        try:
+            num = phone_no.raw_input.replace(" ","")
+            int(num)
+        except:
+            raise forms.ValidationError('Please enter a valid phone number e.g. "0123456789".')
+        
+        return phone_no
 
 ######## New Post Form ########
 class NewPost(forms.ModelForm):
@@ -42,7 +52,7 @@ class NewPost(forms.ModelForm):
         fields = [ "postContent"]
 
 ######## Edit Profile Form ########
-class EditPost(forms.ModelForm):
+class EditProfile(forms.ModelForm):
     phone_num = PhoneNumberField()
     
     def __init__(self, *args, **kwargs):
@@ -67,7 +77,7 @@ class EditPost(forms.ModelForm):
             ),
             Row(
                 Column('email', css_class='form-group col-md-6 mb-0'),
-                Column('phone_num', css_class='form-group col-md-6 mb-0', type='tel')
+                Column('phone_num', css_class='form-group col-md-6 mb-0')
             ),
             Submit('Save changes', 'Save Changes',)
         )
@@ -75,4 +85,13 @@ class EditPost(forms.ModelForm):
     class Meta:
         model = CustomUser
         exclude = ["id", "password", "groups", "user_permissions", "is_superuser", "is_staff", "is_active", "last_login", "date_joined"]
+
+    def clean_phone_num(self):
+        phone_no = self.cleaned_data.get('phone_num', None)
+        try:
+            num = phone_no.raw_input.replace(" ","")
+            int(num)
+        except:
+            raise forms.ValidationError('Please enter a valid phone number e.g. "0123456789".')
         
+        return phone_no
