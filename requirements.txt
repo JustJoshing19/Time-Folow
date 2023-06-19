@@ -5,6 +5,7 @@ crispy-bootstrap4==2022.1
 cssbeautifier==1.14.8
 Django==4.2.1
 django-crispy-forms==2.0
+django-phonenumber-field==7.1.0
 djlint==1.30.2
 EditorConfig==0.12.3
 html-tag-names==0.1.2
@@ -12,6 +13,7 @@ html-void-elements==0.1.0
 jsbeautifier==1.14.8
 json5==0.9.14
 pathspec==0.11.1
+phonenumberslite==8.13.14
 PyYAML==6.0
 regex==2023.6.3
 six==1.16.0
