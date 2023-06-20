@@ -1,3 +1,4 @@
+from datetime import datetime
 from django.shortcuts import render, redirect
 from django.conf import settings
 from django.contrib import messages
@@ -91,7 +92,7 @@ def CreatePost(request):
     if request.method == 'POST':            # To be changed for new model form
         content = request.POST['postContent']
         poster = request.user
-        newPost = Post(user=poster, postContent=content)
+        newPost = Post(user=poster, postContent=content, timeStamp=datetime.now())
         newPost.save()
         messages.success(request, 'Succesfully posted!')
         AlertType = "success"
