@@ -1,1 +1,1 @@
-# django-project
+# django social network
