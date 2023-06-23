@@ -108,6 +108,7 @@ def ViewTimelineCurrentUser(request):
     else:
         AlertType = ''
     posts = Post.objects.all().filter(user_id = request.user).order_by('-timeStamp')
+    
     hasPost = True
     if not posts:
         hasPost = False
@@ -116,9 +117,13 @@ def ViewTimelineCurrentUser(request):
 def ViewTimeline(request, username):
     selectedUser = get_user_model().objects.all().filter(username=username)
     posts = Post.objects.all().filter(user_id = selectedUser[0]).order_by('-timeStamp')
-    hasPost = True
-    if not posts:
-        hasPost = False
+    
+    hasPost = False
+    if posts:
+        hasPost = True
+        
+
+    
     return render(request, 'TimeFollow/timeline.html', {'title':'Timeline', 'cUser': username, 'posts':posts, 'hasPosts': hasPost})
 
 ########### Editing and Viewing Profile ###########
