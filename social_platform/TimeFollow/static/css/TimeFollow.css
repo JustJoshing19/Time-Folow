@@ -53,8 +53,9 @@ div.post-container::before {
 
 div.timeline {
     padding-left: 2%;
-    margin: 2%;
-    margin-top: 3%;
+    margin: 3%;
+    margin-top: 7%;
+    margin-bottom: 0%;
 }
 
 div.timeline::before{
@@ -66,7 +67,7 @@ div.timeline::before{
     font-size: large;
     padding: 2px;
     top: 10vh;
-    left: 0;
+    left: 2px;
 }
 
 div.timeline::after{
@@ -75,8 +76,8 @@ div.timeline::after{
     width: 5px;
     background-color: black;
     left: 2.2vh;
-    top: 13.7vh;
-    bottom: 0;
+    top: 14.5vh;
+    bottom: -14.5vh;
 }
 
 /* Side navbar */
