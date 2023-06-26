@@ -23,61 +23,66 @@ textarea.createPost {
 }
 
 /* View timeline page */
+/* TODO create new timeline page */
+div.timeline-container {
+    padding-left: 50px;
+}
 
-div.post-container {
-    margin: 20px;
-    padding: 1%;
-    height: auto;
-    border-width: 10px;
-    border-radius: 10px;
-    border-color: black;
-    background-color: rgb(139, 73, 73);
+table.timeline-month {
     position: relative;
-    z-index: 1;
-    overflow-wrap: break-word;
+    margin-top: 60px;
 }
 
-div.post-container::before {
-    content: '';
-    position: absolute;
-    align-self: center;
-    width: 0;
-    height: 0;
-    left: -15px;
-    top: 5px;
-    z-index: 0;
-    border: medium solid rgb(139, 73, 73);
-    border-width: 20px 20px 20px 0;
-    border-color: transparent rgb(139, 73, 73) transparent transparent;
-}
-
-div.timeline {
-    padding-left: 2%;
-    margin: 3%;
-    margin-top: 7%;
-    margin-bottom: 0%;
-}
-
-div.timeline::before{
-    content: 'Now';
-    position: absolute;
-    border: medium solid black;
-    border-radius: 10px;
-    width: auto;
-    font-size: large;
-    padding: 2px;
-    top: 10vh;
-    left: 2px;
-}
-
-div.timeline::after{
+table.timeline-month::after {
     content: '';
     position: absolute;
     width: 5px;
     background-color: black;
-    left: 2.2vh;
-    top: 14.5vh;
-    bottom: -14.5vh;
+    left: -25px;
+    top: -6px;
+    bottom: -5px;
+}
+
+div.timeline-year {
+    width: auto;
+    height: 50px;
+    border-style: solid;
+    border-radius: 5px;
+    border-color: black;
+    border-width: 3px;
+    background-color: rgb(139, 73, 73);
+
+    position: absolute;
+    left: -40px;
+    top: -55px;
+
+    font-size: xx-large;
+    padding: px;
+    text-align: center;
+}
+
+div.timeline {
+    position: relative;
+    margin-top: 60px;
+}
+
+div.post-content {
+    background-color: rgb(194, 104, 104);
+    border-radius: 10px;
+    padding: 10px;
+}
+
+th.month {
+    background-color: rgb(139, 73, 73);
+    border-color: black;
+    border-radius: 10px;
+
+    font-size: x-large;
+    text-align: center;
+}
+
+td.post {
+    border: 0;
 }
 
 /* Side navbar */

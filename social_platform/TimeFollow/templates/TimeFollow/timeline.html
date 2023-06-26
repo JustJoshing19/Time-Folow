@@ -20,20 +20,52 @@
     {% endif %}
 </div>
 
+<!-- TODO create new timeline display -->
 {% if hasPosts %}
-<div class="timeline">
-    {% for p in posts %}
-    <div class="border post-container">
-        <span>
-            <p class="text_break">
-                {{ p.postContent }}
-            </p>
-        </span>
-        <sub>
-            {{ p.timeStamp }}
-        </sub>
+<div class="container-fluid">
+    <div class="container-fluid timeline-container">
+        {% for year, yearposts in posts.items %}
+        <!--year-->
+        <div class="timeline">
+            <div class="timeline-year">
+                <p>
+                    <b>{{ year }}</b>
+                </p>
+            </div>
+
+            <!--month-->
+            <table class="table timeline-month">
+            {% for month, monthposts in yearposts.items %}
+                <th class="month">
+                    {{ month }}
+                </th>
+
+                {% for p in monthposts  %}
+                <!-- post-->
+                <tr>
+                    <td class="post">
+                        <div class="post-content">
+                            <span>
+                                <p class="text_break">
+                                    {{ p.content }}
+                                </p>
+                            </span>
+                            <sub>
+                                {{ p.day }}, {{ p.time }}
+                            </sub>
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+            {% endfor %}
+
+            </table>
+
+        </div>
+        {% endfor %}
+
     </div>
-    {% endfor %}
+
 </div>
 {% else %}
 <div class="" style="text-align: justify">

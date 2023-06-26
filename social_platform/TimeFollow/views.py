@@ -11,6 +11,7 @@ from django.template.loader import get_template
 from django.template import Context
 from TimeFollow.models import Post
 from .formErr import RegisterFormErrMessages
+from .utils import generateTimeline
 currentUser = settings.AUTH_USER_MODEL
 
 ########### Home page ###########
@@ -107,18 +108,24 @@ def ViewTimelineCurrentUser(request):
         AlertType = request.session['alerttype']
     else:
         AlertType = ''
-    posts = Post.objects.all().filter(user_id = request.user).order_by('-timeStamp')
-    hasPost = True
-    if not posts:
-        hasPost = False
+    posts = Post.objects.all().filter(user_id = request.user).order_by('-timeStamp').values()
+    
+    hasPost = False
+    if posts:
+        posts = generateTimeline(posts)
+        hasPost = True
+
     return render(request, 'TimeFollow/timeline.html', {'title':'Timeline', 'cUser': request.user, 'posts': posts, 'hasPosts': hasPost, 'alerttype':AlertType})
 
 def ViewTimeline(request, username):
     selectedUser = get_user_model().objects.all().filter(username=username)
-    posts = Post.objects.all().filter(user_id = selectedUser[0]).order_by('-timeStamp')
-    hasPost = True
-    if not posts:
-        hasPost = False
+    posts = Post.objects.all().filter(user_id = selectedUser[0]).order_by('-timeStamp').values()
+    
+    hasPost = False
+    if posts:
+        posts = generateTimeline(posts)
+        hasPost = True
+    
     return render(request, 'TimeFollow/timeline.html', {'title':'Timeline', 'cUser': username, 'posts':posts, 'hasPosts': hasPost})
 
 ########### Editing and Viewing Profile ###########
