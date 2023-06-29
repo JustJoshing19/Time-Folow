@@ -146,3 +146,9 @@ def viewProfile(request):
 
     form = EditProfile(instance=request.user)
     return render(request, 'TimeFollow/profile.html', {'UserInfoForm': '', 'title': 'Profile', 'form': form, 'alerttype':AlertType})
+
+def changePassword(request):
+    AlertType = ''
+    if request.method == 'POST':
+        pass
+    pass
