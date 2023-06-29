@@ -30,4 +30,5 @@ urlpatterns = [
     path('timeline/', tf_views.ViewTimelineCurrentUser, name='timeline'),
     path('timeline/<username>', tf_views.ViewTimeline, name='usertimeline'),
     path('profile/', tf_views.viewProfile, name='profile'),
+    path('passwordChange/', tf_views.changePassword, name='passwordchange'),
 ]

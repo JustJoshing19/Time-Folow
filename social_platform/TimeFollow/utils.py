@@ -15,6 +15,7 @@ MONTHS = {
     12: 'December',
 }
 
+###### Timeline methods ######
 def generateTimeline(posts: Post):
     sortedPosts = {'test': {'test': []}}
     

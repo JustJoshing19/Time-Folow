@@ -14,6 +14,9 @@ __pycache__/
 
 /designs
 
-#Binary file
+# Binary file
 *.img
 *.png
+
+# Other
+.env
