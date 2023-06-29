@@ -5,7 +5,7 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login, get_user_model, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm
-from .forms import UserRegistrationForm, NewPost, EditProfile
+from .forms import UserRegistrationForm, NewPost, EditProfile, changePassword
 from django.core.mail import send_mail, EmailMultiAlternatives
 from django.template.loader import get_template
 from django.template import Context
@@ -147,8 +147,16 @@ def viewProfile(request):
     form = EditProfile(instance=request.user)
     return render(request, 'TimeFollow/profile.html', {'UserInfoForm': '', 'title': 'Profile', 'form': form, 'alerttype':AlertType})
 
-def changePassword(request):
+# TODO implement any neccesarry error handling
+def newPassword(request):
     AlertType = ''
     if request.method == 'POST':
-        pass
-    pass
+        form = changePassword(request.POST)
+        if form.is_valid():
+            pass
+        else:
+            for err in form.error_messages:
+                messages.warning(request, err)          # TODO show correct err messages
+            AlertType = "danger"    
+    form = changePassword(request.user)
+    return render(request, 'TimeFollow/passwordChange.html',{'title': 'Profile', 'form': form, 'alerttype':AlertType})

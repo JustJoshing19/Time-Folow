@@ -1,7 +1,7 @@
 from typing import Any, Dict, Mapping, Optional, Type, Union
 from django import forms
 from django.contrib.auth.models import User
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm, PasswordChangeForm
 from django.core.files.base import File
 from django.db.models.base import Model
 from django.forms.utils import ErrorList
@@ -95,3 +95,15 @@ class EditProfile(forms.ModelForm):
             raise forms.ValidationError('Please enter a valid phone number e.g. "0123456789".')
         
         return phone_no
+    
+class changePassword(PasswordChangeForm):
+    
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        self.helper = FormHelper()
+        self.helper.form_id = 'id-passwordChange'
+        self.helper.form_class = 'blueForms'
+        self.helper.form_method = 'post'
+        self.helper.form_action = 'passwordchange'
+        self.helper.add_input(Submit('change password','Change Password',))

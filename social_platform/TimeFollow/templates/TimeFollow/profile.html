@@ -3,27 +3,32 @@
 {% block start %}
 
 <div class="container-fluid page-header text-center" style="margin: 0%;">
-    <header>
-        <h1>{{ user.username }}'s profile</h1>
-    </header>
+  <header>
+    <h1>{{ user.username }}'s profile</h1>
+  </header>
 </div>
 
 <div class="container-fluid">
-    {% if messages %}
-    <div class="alert alert-{{ alerttype }}" role="alert">
-      <strong>Alerts:</strong>
-      <ul class="list-group">
-        {% for message in messages %}
-        <li class="alert">{{ message }}</li>
-        {% endfor %}
-      </ul>
-    </div>
-    {% endif %}
+  {% if messages %}
+  <div class="alert alert-{{ alerttype }}" role="alert">
+    <strong>Alerts:</strong>
+    <ul class="list-group">
+      {% for message in messages %}
+      <li class="alert">{{ message }}</li>
+      {% endfor %}
+    </ul>
   </div>
+  {% endif %}
+</div>
 
 <div class="container-fluid">
-    {% csrf_token %}
-    {% crispy form %}
+  {% csrf_token %}
+  {% crispy form %}
+</div>
+
+<br>
+<div class="passchange">
+  <button class="btn btn-primary" ><a class="passchange" href="{% url 'passwordchange' %}">Change Password</a></button>
 </div>
 
 {% endblock start %}

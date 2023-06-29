@@ -142,3 +142,13 @@ li.alert {
 /* .container-fluid{
     background-color: rgb(236, 106, 106);
 } */
+
+/* Change password buttons and page */
+
+div.passchange {
+    padding-left: 15px;
+}
+
+a.passchange {
+    color: #fff;
+}
