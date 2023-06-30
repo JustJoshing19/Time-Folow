@@ -1,8 +1,9 @@
 from datetime import datetime
 from django.shortcuts import render, redirect
+from django.urls import reverse
 from django.conf import settings
 from django.contrib import messages
-from django.contrib.auth import authenticate, login, get_user_model, logout
+from django.contrib.auth import authenticate, login, get_user_model, logout, update_session_auth_hash
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm
 from .forms import UserRegistrationForm, NewPost, EditProfile, changePassword
@@ -16,11 +17,17 @@ currentUser = settings.AUTH_USER_MODEL
 
 ########### Home page ###########
 def index(request):
+    if 'alerttype' in request.session:
+        AlertType = request.session['alerttype']
+    else:
+        AlertType = ''
+
     User = get_user_model()
     all_users = User.objects.all()
 
-    return render(request, 'TimeFollow/Home.html', {'title':'Home', 'users': all_users})
+    return render(request, 'TimeFollow/Home.html', {'title':'Home', 'users': all_users, 'alerttype':AlertType})
 
+@login_required
 def logoutUser(request):
     logout(request)
     messages.success(request, "You have been Logged out.")
@@ -89,6 +96,7 @@ def Login(request):
     return render(request, 'TimeFollow/login.html', {'form':form, 'title':'Log in', 'alerttype':AlertType})
 
 ########### Creating and Viewing ###########
+@login_required
 def CreatePost(request):
     if request.method == 'POST':            # To be changed for new model form
         content = request.POST['postContent']
@@ -103,6 +111,7 @@ def CreatePost(request):
     form = NewPost()
     return render(request, 'TimeFollow/createPost.html', {'title':'Create Post', 'form': form})
 
+@login_required
 def ViewTimelineCurrentUser(request):
     if 'alerttype' in request.session:
         AlertType = request.session['alerttype']
@@ -129,8 +138,13 @@ def ViewTimeline(request, username):
     return render(request, 'TimeFollow/timeline.html', {'title':'Timeline', 'cUser': username, 'posts':posts, 'hasPosts': hasPost})
 
 ########### Editing and Viewing Profile ###########
+@login_required
 def viewProfile(request):
-    AlertType = ''
+    if 'alerttype' in request.session:
+        AlertType = request.session['alerttype']
+    else:
+        AlertType = ''
+
     if request.method == 'POST':
         form = EditProfile(request.POST, instance=request.user)
         if form.is_valid():
@@ -148,15 +162,21 @@ def viewProfile(request):
     return render(request, 'TimeFollow/profile.html', {'UserInfoForm': '', 'title': 'Profile', 'form': form, 'alerttype':AlertType})
 
 # TODO implement any neccesarry error handling
+@login_required
 def newPassword(request):
     AlertType = ''
     if request.method == 'POST':
-        form = changePassword(request.POST)
+        form = changePassword(user=request.user,data=request.POST)
         if form.is_valid():
-            pass
+            form.save()
+            update_session_auth_hash(request, form.user)
+            messages.success(request, 'Succesfully changed password!')
+            AlertType = "success"
+            request.session['alerttype'] = AlertType
+            return redirect('profile')
         else:
             for err in form.error_messages:
-                messages.warning(request, err)          # TODO show correct err messages
+                messages.warning(request, form.error_messages[err])          # TODO show correct err messages
             AlertType = "danger"    
-    form = changePassword(request.user)
+    form = changePassword(user=request.user)
     return render(request, 'TimeFollow/passwordChange.html',{'title': 'Profile', 'form': form, 'alerttype':AlertType})

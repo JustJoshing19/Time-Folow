@@ -150,3 +150,5 @@ EMAIL_HOST_PASSWORD=Config.appPassword
 
 AUTH_USER_MODEL = 'TimeFollow.CustomUser'
 PHONENUMBER_DEFAULT_REGION = 'ZA'
+
+LOGIN_URL = 'login'

@@ -8,15 +8,7 @@
     </header>
 </div>
 
-<div class="container-fluid">
-    {% if messages %}
-    {% for message in messages %}
-    <div class="alert alert-success" role="alert">
-        <strong>{{ message }}</strong>
-      </div>
-    {% endfor %}
-    {% endif %}
-</div>
+{% include 'TimeFollow/snippets/alertTemp.html' %}
 
 {% for cUser in users %}
 <div class="card"

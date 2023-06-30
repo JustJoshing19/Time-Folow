@@ -8,18 +8,7 @@
   </header>
 </div>
 
-<div class="container-fluid">
-  {% if messages %}
-  <div class="alert alert-{{ alerttype }}" role="alert">
-    <strong>Alerts:</strong>
-    <ul class="list-group">
-      {% for message in messages %}
-      <li class="alert">{{ message }}</li>
-      {% endfor %}
-    </ul>
-  </div>
-  {% endif %}
-</div>
+{% include 'TimeFollow/snippets/alertTemp.html' %}
 
 <div class="container-fluid">
   {% csrf_token %}
